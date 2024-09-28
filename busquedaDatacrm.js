@@ -18,7 +18,7 @@ async function buscarDatacrm() {
 
     try {
         // Navega a Google
-        await driver.get('https://www.google.com');
+        await driver.get('https://www.yahoo.com');
 
         // Acepta las cookies si es necesario
         try {
@@ -29,13 +29,21 @@ async function buscarDatacrm() {
         }
 
         // Encuentra el campo de búsqueda
-        let cajaBusqueda = await driver.findElement(By.name('q'));
+        let cajaBusqueda = await driver.findElement(By.name('p'));
 
         // Ingresa "datacrm" y presiona Enter
-        await cajaBusqueda.sendKeys('datacrm', Key.RETURN);
+        await cajaBusqueda.sendKeys('david palacio', Key.RETURN);
 
         // Espera a que se carguen los resultados
-        await driver.wait(until.titleContains('datacrm'), 10000);
+        await driver.wait(until.titleContains('david palacio'), 10000);
+
+        // Obtiene el HTML de la página de resultados
+        let pageSource = await driver.getPageSource();
+
+        // Guarda el HTML en un archivo
+        const fs = require('fs');
+        fs.writeFileSync('searchResults.html', pageSource);
+        console.log('HTML descargado y guardado como searchResults.html');
 
         console.log('Búsqueda completada exitosamente.');
     } catch (error) {
